@@ -1,26 +1,27 @@
-import requests
-import pandas as pd
+from WeatherURLClass import WeatherURL
 
-#Define API
-url = "https://api.open-meteo.com/v1/forecast?latitude=48.428333&longitude=-123.364722&hourly=temperature_2m,precipitation,wind_speed_10m&timezone=America/Vancouver"
+def main():
 
-#GET request
-try:
-    #Tries to get server response of data, timeout of 10 seconds to ensure no hanging
-    response = requests.get(url, timeout=10)
+    #Define API
+    url = "https://api.open-meteo.com/v1/forecast"
 
-except requests.exceptions.Timeout:
-    print("Request timed out")
+    #Parameters for url
+    params = {
+        "latitude": 48.428333,
+        "longitude": -123.36472,
+        "hourly": "temperature_2m,precipitation,wind_speed_10m",
+        "timezone": "America/Vancouver"
+    }
 
-except requests.exceptions.RequestException as e:
-    print("ERROR:", e)
+    weather_data = WeatherURL(url, params)
 
-#Save response data as json object
-data = response.json()
-hourly = data["hourly"]
+    weather_dict = weather_data.get_response_data()
 
-#Convert hourly data to Data Frame
-df = pd.DataFrame(hourly)
+    # Storing raw json data in separate file
+    weather_data.raw_json_data("data/raw_victoria_hourly_weather.json")
 
-#Convert Data Frame to csv
-df.to_csv("victoria_hourly_weather.csv", index=False)
+    # Storing data in csv file
+    weather_data.to_csv("data/victoria_hourly_weather.csv")
+
+if __name__ == "__main__":
+    main()
