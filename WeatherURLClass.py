@@ -32,13 +32,21 @@ class WeatherURL:
         except Exception as e:
             print(e)
 
-    def to_csv(self, path):
+    def to_dataframe(self):
         hourly = self.get_response_data().get("hourly")
 
-        # Convert hourly data to Data Frame
+        if not hourly:
+            raise RuntimeError
+
         df = pd.DataFrame(hourly)
         df["time"] = pd.to_datetime(df["time"])
         df["date"] = df["time"].dt.date
 
+        return df
+
+    def to_csv(self, path):
+        df = self.to_dataframe()
+
         # Convert Data Frame to csv
         df.to_csv(path, index=False)
+        return df

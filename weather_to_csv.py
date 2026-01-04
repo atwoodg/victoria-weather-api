@@ -15,8 +15,6 @@ def main():
 
     weather_data = WeatherURL(url, params)
 
-    weather_dict = weather_data.get_response_data()
-
     # Storing raw json data in separate file
     weather_data.raw_json_data("data/raw_victoria_hourly_weather.json")
 
