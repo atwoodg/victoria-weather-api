@@ -1,4 +1,5 @@
 from WeatherURLClass import WeatherURL
+import os
 
 def main():
 
@@ -12,6 +13,8 @@ def main():
         "hourly": "temperature_2m,precipitation,wind_speed_10m",
         "timezone": "America/Vancouver"
     }
+
+    os.makedirs("data")
 
     weather_data = WeatherURL(url, params)
 
