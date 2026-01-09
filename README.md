@@ -22,13 +22,14 @@ Clone the repo and compile:
 
 ```bash
 git clone https://github.com/atwoodg/victoria-weather-api
-
 cd victoria-weather-api
 
 #Windows:
+py -m venv .venv
 .\.venv\Scripts\activate
 
 #macOS/Linux:
+python3 -m venv .venv
 source .venv/bin/activate
 
 pip install requests pandas
@@ -37,7 +38,7 @@ pip install requests pandas
 ## How to use
 Running the system:
 ```bash
-python3 weather_to_csv.py
+python weather_to_csv.py
 ```
 Output will be:
 - Raw JSON data
