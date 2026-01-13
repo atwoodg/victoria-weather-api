@@ -10,11 +10,13 @@ A small data analytics project that pulls hourly weather data from the Open-Mete
 - Ensures dates and times are in proper format for output.
 - Loads cleaned result into a CSV file.
 - Dashboard connected to CSV output is built in Power BI.
+- Also loads the result into a SQLite database for storage.
 
 ## Tech stack
 - Python 3.9.23
   - 'requests' for API calls
   - 'pandas' for data transformation
+- SQLite
 - Power BI
 
 ## Installation
@@ -38,9 +40,14 @@ pip install requests pandas
 ## How to use
 Running the system:
 ```bash
+# Run the pipeline to update the CSV:
 python weather_to_csv.py
 ```
-Outputed files in \data:
+
+Power BI Dashboard:
+Home -> Refresh
+
+Files output in \data:
 - Raw JSON data
 - CSV data
 
