@@ -1,10 +1,10 @@
 # Victoria Weather Analytics
 
 ## Overview
-A small data analytics project that pulls hourly weather data from the Open-Meteo API and transforms it into a CSV file to be used in Power BI dashboard for reporting. Location can be changed by adjusting parameters.
+A small data analytics project that pulls hourly weather data from the Open-Meteo API and transforms it into a CSV file to be used in a Power BI dashboard for reporting. Location can be changed by adjusting parameters.
 
 ## Features
-- Extracts hourly weather data from Open-Meteo API for Victoria B.C.
+- Extracts hourly weather data from Open-Meteo API for Victoria, B.C.
 - Stores raw data as JSON for debugging.
 - Transforms 'hourly' JSON dictionary into pandas DataFrame.
 - Ensures dates and times are in proper format for output.
@@ -40,7 +40,7 @@ Running the system:
 ```bash
 python weather_to_csv.py
 ```
-Output will be:
+Outputed files in \data:
 - Raw JSON data
 - CSV data
 
