@@ -8,12 +8,18 @@ class WeatherURL:
         self.url = url
         self.params = params
 
+    '''Call the weather API and return JSON response'''
     def get_response_data(self):
+
         try:
             # Tries to get server response of data, timeout of 10 seconds to ensure no hanging
             response = requests.get(url=self.url, params=self.params, timeout=10)
             response.raise_for_status()
-            return response.json()
+
+            if response.json is None:
+                raise RuntimeError("API response is empty")
+            else:
+                return response.json()
 
         except requests.exceptions.Timeout as e:
             print("Request timed out", e)
@@ -23,29 +29,30 @@ class WeatherURL:
             print("Request failed:", e)
             return None
 
-    def raw_json_data(self, path):
+    '''Write the raw API JSON response to data for traceability'''
+    def raw_json_data(self, data: dict, path: str):
         try:
             # Storing json data
             with open(path, "w") as f:
-                json.dump(self.get_response_data(), f, indent=4)
+                json.dump(data, f, indent=4)
 
         except Exception as e:
             print(e)
 
-    def to_dataframe(self):
-        hourly = self.get_response_data().get("hourly")
+    '''Convert the API JSON response into cleaned pandas dataframe'''
+    def to_dataframe(self, data: dict):
+        hourly_df = pd.DataFrame(data.get("hourly"))
 
-        if not hourly:
-            raise RuntimeError
+        if hourly_df.empty:
+            raise RuntimeError("Hourly data is empty")
 
-        df = pd.DataFrame(hourly)
-        df["time"] = pd.to_datetime(df["time"])
-        df["date"] = df["time"].dt.date
+        hourly_df["time"] = pd.to_datetime(hourly_df["time"])
+        hourly_df["date"] = hourly_df["time"].dt.date
 
-        return df
+        return hourly_df
 
-    def to_csv(self, path):
-        df = self.to_dataframe()
+    '''Export the hourly dataframe to a CSV file for POWER BI reporting'''
+    def to_csv(self, df: pd.DataFrame , path: str):
 
         # Convert Data Frame to csv
         df.to_csv(path, index=False)
